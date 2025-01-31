@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .choices {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .choice {
+            margin: 0 10px;
+            cursor: pointer;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Rock Paper Scissors</h1>
+        <div class="choices">
+            <div class="choice" data-choice="rock">✊</div>
+            <div class="choice" data-choice="paper">✋</div>
+            <div class="choice" data-choice="scissors">✌️</div>
+        </div>
+        <div class="result"></div>
+    </div>
+
+    <script>
+        const choices = document.querySelectorAll('.choice');
+        const resultDiv = document.querySelector('.result');
+
+        choices.forEach(choice => {
+            choice.addEventListener('click', () => {
+                const userChoice = choice.getAttribute('data-choice');
+                const computerChoice = getComputerChoice();
+                const winner = getWinner(userChoice, computerChoice);
+                displayResult(userChoice, computerChoice, winner);
+            });
+        });
+
+        function getComputerChoice() {
+            const choices = ['rock', 'paper', 'scissors'];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        function getWinner(userChoice, computerChoice) {
+            if (userChoice === computerChoice) {
+                return 'draw';
+            } else if (
+                (userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                return 'user';
+            } else {
+                return 'computer';
+            }
+        }
+
+        function displayResult(userChoice, computerChoice, winner) {
+            if (winner === 'draw') {
+                resultDiv.innerHTML = `It's a draw! You both chose ${userChoice}.`;
+            } else if (winner === 'user') {
+                resultDiv.innerHTML = `You win! ${userChoice} beats ${computerChoice}.`;
+            } else {
+                resultDiv.innerHTML = `You lose! ${computerChoice} beats ${userChoice}.`;
+            }
+        }
+    </script>
+</body>
+</html>
